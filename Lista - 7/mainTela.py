@@ -8,6 +8,7 @@ from PyQt5.QtCore import QCoreApplication
 from telaInicial import Tela_Inicial
 from telaCadastra import Tela_Cadastra
 from telaOperacoes import Tela_Operacoes
+from telaHistorico import Tela_Historico
 
 from conta import Conta
 from conta import Cliente
@@ -44,15 +45,26 @@ class Main(QMainWindow, Ui_Main):
         super(Main, self).__init__(parent)
         self.setupUi(self)
 
+        self.cadPessoa = Pessoa()
+        self.cadConta = Conta
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastra)
         self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaOperacoes)
 
     def abrirTelaCadastra(self):
         self.QtStack.setCurrentIndex(1)
+        self.tela_cadastra.pushButton.clicked.connect(self.botaoCadastra)
+        self.tela_cadastra.pushButton_2.clicked.connect(self.volta)
+            
+
+    def volta(self):
+        self.QtStack.setCurrentIndex(0)
+        
 
     def abrirTelaOperacoes(self):
         self.QtStack.setCurrentIndex(2)
+        self.tela_operacoes.pushButton_5.clicked.connect(self.volta)
 
+    def botaoCadastra(self):
 
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'telaInicial.ui'
+# Form implementation generated from reading ui file '.\telaInicial.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,24 +11,27 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Tela_Inicial(object):
+class Tela_Inicia(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(556, 414)
+        MainWindow.resize(238, 270)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(190, 110, 181, 51))
+        self.label.setGeometry(QtCore.QRect(40, 30, 161, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(210, 200, 101, 23))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(210, 240, 101, 23))
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.botao_cadpessoa = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_cadpessoa.setGeometry(QtCore.QRect(70, 110, 101, 23))
+        self.botao_cadpessoa.setObjectName("botao_cadpessoa")
+        self.botao_singin = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_singin.setGeometry(QtCore.QRect(70, 170, 101, 23))
+        self.botao_singin.setObjectName("botao_singin")
+        self.botao_cadconta = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_cadconta.setGeometry(QtCore.QRect(70, 140, 101, 23))
+        self.botao_cadconta.setObjectName("botao_cadconta")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -41,15 +44,16 @@ class Tela_Inicial(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Menu - Conta"))
-        self.pushButton.setText(_translate("MainWindow", "Cadastrar - Conta"))
-        self.pushButton_2.setText(_translate("MainWindow", "Transacoes"))
+        self.botao_cadpessoa.setText(_translate("MainWindow", "Cadastrar Pessoa"))
+        self.botao_singin.setText(_translate("MainWindow", "Sing-in"))
+        self.botao_cadconta.setText(_translate("MainWindow", "Cadastrar Conta"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Tela_Inicial()
+    ui = Tela_Inicia()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

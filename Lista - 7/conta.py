@@ -1,10 +1,4 @@
 import datetime
-'''
-Questao 1 - adicione os setter e os gets nas classes Cliente e Conta
-Questao 2 - adicione um contador a classe Conta (usei @staticmethod) - atributo de classe
-Questao 3 - adicione slots para as classes conta e cliente
-'''
-
 
 
 class Cliente:
@@ -69,7 +63,7 @@ class Conta:
 
 
 
-    @property#não e nescessario um setter para historico ja que nao deve ser acessado diretamente
+    @property
     def historico(self):
         return self._historico
 
