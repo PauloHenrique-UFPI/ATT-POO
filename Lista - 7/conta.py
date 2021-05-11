@@ -3,7 +3,7 @@ import datetime
 
 class Cliente:
 
-    __slots__ = ['_nome','_sobrenome','_cpf'] 
+    __slots__ = ['_nome','_sobrenome','_cpf']
     def __init__(self, nome, sobrenome, cpf):
         self._nome = nome
         self._sobrenome = sobrenome
@@ -33,15 +33,22 @@ class Cliente:
 
 class Conta:
 
-    __slots__ = ['_cliente','_numero','_saldo','_limite','_historico']
+    __slots__ = ['_cliente','_numero','_saldo','_limite','_historico','_data']
     _cont_contas = 0
     def __init__(self, cliente, numero, saldo, limite):
         self._numero = numero
         self._saldo = saldo
         self._limite = limite
         self._historico = Historico()
+        self._data = str(datetime.datetime.today())
         Conta._cont_contas +=1
 
+    
+    def data(self):
+        return self._data
+
+    def saldo_conta(self):
+        return self._saldo
     @staticmethod
     def total_contas():
         return Conta._cont_contas
@@ -63,9 +70,8 @@ class Conta:
 
 
 
-    @property
     def historico(self):
-        return self._historico
+        return self._historico._transacoes
 
 
     def depositar(self, valor):
@@ -86,7 +92,7 @@ class Conta:
             print('\nImpossivel sacar a quantia!!\n')
             return False
     
-    def transfere(self, contax, valor):
+    def transfere(self, contax, valor:float)->bool:
         if self.sacar(valor) == False:
             return False
         else:
@@ -108,9 +114,8 @@ class Historico:
     def __init__(self):
         self._data_abertura = datetime.datetime.today()
         self._transacoes = []
+    
+    @property
+    def transacoes(self):
+        return self._transacoes
 
-    def imprime(self):
-        print('Data de criação:',self._data_abertura)
-        print('Historico de trasações:')
-        for t in self._transacoes:
-            print('-',t)

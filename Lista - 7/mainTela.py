@@ -98,12 +98,97 @@ class Main(QMainWindow, Ui_Main):
         self.tela_Cadastra.pushButton_2.clicked.connect(self.troca_inicial)
         self.tela_Inicial.botao_cadconta.clicked.connect(self.troca_cadastra_conta)
         self.tela_Cadastra_Conta.pushButton.clicked.connect(self.cadastra_Conta)
+        self.tela_Inicial.botao_singin.clicked.connect(self.troca_operacoes)
+        self.tela_Operacoes.botao_depositar.clicked.connect(self.troca_deposita)
+        self.tela_Depositar.botao_depositar.clicked.connect(self.deposita)
+        self.tela_Depositar.pushButton.clicked.connect(self.volta_opcoes)
+        self.tela_Operacoes.botao_sacar.clicked.connect(self.troca_sacar)
+        self.tela_Sacar.botao_sacar.clicked.connect(self.saca)
+        self.tela_Sacar.botao_voltar.clicked.connect(self.volta_opcoes)
+        self.tela_Operacoes.botao_historico.clicked.connect(self.mostrar_historico)
+        self.tela_Operacoes.pushButton_5.clicked.connect(self.troca_inicial)
+        self.tela_Hitorico.pushButton.clicked.connect(self.volta_opcoes)
+        self.tela_Operacoes.pushButton.clicked.connect(self.mostra_extrato)
+        self.tela_Extrato.botao_voltar.clicked.connect(self.volta_opcoes)
+        self.tela_Operacoes.botao_transferir.clicked.connect(self.troca_transfere)
+        self.tela_Tranferir.botao_transferir.clicked.connect(self.tranfere_valor)
+        self.tela_Tranferir.botao_voltar.clicked.connect(self.volta_opcoes)
+        self.cout = 0
+        self.conta_atual = None
+
+    def troca_transfere(self):
+        self.conta_atual = self.retorna_conta()
+        if ( self.conta_atual != None):
+            self.controle_de_tela.setCurrentIndex(self.index_Tranferir)
+
+    def tranfere_valor(self):
+        num_conta = self.tela_Tranferir.input_conta.text()
+        valor = self.tela_Tranferir.input_valor.text()
+        retorno = self.cadConta.busca(num_conta)
+        if (retorno != None):
+            Conta.transfere(self.conta_atual, retorno, float(valor))
+            QMessageBox.information(None, 'POOII', 'Transferencia efetuada com sucesso!')
+        else:
+            QMessageBox.information(None, 'POOII', 'Conta não encontrada! {}'.format(retorno))
+
+
+
+
+
+    def mostra_extrato(self):
+        self.conta_atual = self.retorna_conta()
+        if (self.conta_atual != None):
+            data = Conta.data(self.conta_atual)
+            saldo = Conta.saldo_conta(self.conta_atual)
+            self.tela_Extrato.lineEdit_2.setText(data)
+            self.tela_Extrato.lineEdit.setText(str(saldo))
+            self.controle_de_tela.setCurrentIndex(self.index_Extrato)
+    def mostrar_historico(self):
+        self.conta_atual = self.retorna_conta()
+        if ( self.conta_atual != None ):
+            self.tela_Hitorico.input_historico.clear()
+            return_historico = Conta.historico(self.conta_atual)
+            for operacao in return_historico:
+                self.tela_Hitorico.input_historico.addItem(operacao)
+
+            self.controle_de_tela.setCurrentIndex(self.index_Historico)
+
+    def volta_opcoes(self):
+        self.controle_de_tela.setCurrentIndex(self.index_Operacoes)
 
     def troca_cadastra_pessoa(self):
         self.controle_de_tela.setCurrentIndex(self.index_Cadastra)
 
     def troca_cadastra_conta(self):
         self.controle_de_tela.setCurrentIndex(self.index_Cadastra_Conta)
+    
+    def troca_operacoes(self):
+        self.controle_de_tela.setCurrentIndex(self.index_Operacoes)
+
+    def troca_sacar(self):
+        self.conta_atual = self.retorna_conta()
+        if ( self.conta_atual != None):
+            self.controle_de_tela.setCurrentIndex(self.index_Sacar)
+
+    def troca_deposita(self):
+        self.conta_atual = self.retorna_conta()
+        if ( self.conta_atual != None):
+            self.controle_de_tela.setCurrentIndex(self.index_Depositar)
+
+    def retorna_conta(self):
+        numero_atual = self.tela_Operacoes.input_conta.text()
+        retorno = self.cadConta.busca(numero_atual)
+        if ( retorno == None):
+            QMessageBox.information(None, 'POOII', 'Conta não encontrada')
+        return retorno
+
+    def saca(self):
+        valor = self.tela_Sacar.input_sacar.text()
+        if (valor != ''):
+            Conta.sacar(self.conta_atual, float(valor))
+            QMessageBox.information(None, 'POOII', 'Saque efetuado com sucesso!')
+        else:
+            QMessageBox.information(None, 'POOII', 'N foi possivel efetuar o saque!')
 
     def cadastra_pessoa(self):
         nome = self.tela_Cadastra.input_nome.text()
@@ -118,16 +203,25 @@ class Main(QMainWindow, Ui_Main):
                 self.tela_Cadastra.input_cpf.setText('')
             else:
                 QMessageBox.information(None, 'POOII', 'cpf ja cadastrado!')
-        
+    
+    def deposita(self):
+        valor = self.tela_Depositar.input_deposito.text()
+        if (valor != ''):
+            Conta.depositar(self.conta_atual,float(valor))
+            QMessageBox.information(None, 'POOII', 'Valor depositado!')
+        else:
+            QMessageBox.information(None, 'POOII', 'Digite um valor para deposito!')
 
     def cadastra_Conta(self):
+        
         cpf = self.tela_Cadastra_Conta.lineEdit.text()
         if not(cpf == ''):
             p = self.cad.busca(cpf)
             if ( p != None):
-                c = Conta(p,1,0,100)#ainda n esta completo, numero da conta aleatorio
+                self.cout += 1
+                c = Conta(p,str(self.cout),0,10000)#ainda n esta completo, numero da conta aleatorio
                 if (self.cadConta.cadastra(c)):
-                    QMessageBox.information(None, 'POOII', 'Cadastro realizado com sucesso!')
+                    QMessageBox.information(None, 'POOII', 'Cadastro realizado com sucesso!\n Numero da conta:{}'.format(self.cout))
                     self.tela_Cadastra_Conta.lineEdit.setText('')
 
                 else:
@@ -136,6 +230,7 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'POOII', 'cpf não encontrado!')
         else:
             QMessageBox.information(None, 'POOII', 'Todos os valor devem ser preenxidos!')
+        self.controle_de_tela.setCurrentIndex(self.index_Inicial)
         
     
     def troca_inicial(self):
