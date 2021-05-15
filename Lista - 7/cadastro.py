@@ -19,3 +19,6 @@ class Cadastro:
             if lp.cpf == cpf:
                 return lp
         return None
+
+
+
