@@ -210,11 +210,10 @@ class Main(QMainWindow, Ui_Main):
         if not(nome == '' or sobrenome == '' or cpf == '' ):
             
             Cliente_connect.passa_mensagem(self.cliente,'cad_pessoa')
-            Cliente_connect.passa_mensagem(self, nome)
-            Cliente_connect.passa_mensagem(self, sobrenome)
-            returno = Cliente_connect.passa_mensagem(self, cpf)
-
-            if ( returno == None):
+            Cliente_connect.passa_mensagem(self.cliente, nome)
+            Cliente_connect.passa_mensagem(self.cliente, sobrenome)
+            returno = Cliente_connect.passa_mensagem(self.cliente, cpf)
+            if ( returno == 'True'):
                 QMessageBox.information(None, 'POOII', 'Cadastro realizado com sucesso!')
                 self.tela_Cadastra.input_nome.setText('')
                 self.tela_Cadastra.input_sobrenome.setText('')
@@ -226,13 +225,16 @@ class Main(QMainWindow, Ui_Main):
     def cadastra_Conta(self):
         
         cpf = self.tela_Cadastra_Conta.lineEdit.text()
+        str(cpf)
         if not(cpf == ''):
-            Cliente_connect.passa_mensagem('cad_conta')
-            retorno = Cliente_connect.passa_mensagem(self, cpf)
-            if ( retorno != None):
+            Cliente_connect.passa_mensagem(self.cliente,'cad_conta')
+            retorno = Cliente_connect.passa_mensagem(self.cliente, cpf)
+            print("retorno de cpf: ",retorno)
+            if ( retorno == 'True'):
                 self.cout += 1
-                retorno = Cliente_connect.passa_mensagem(self.cout)
-                if (retorno == True):
+                retorno2 = Cliente_connect.passa_mensagem(self.cliente,str(self.cout))
+                print("retorno da conta: ",retorno2)
+                if (retorno2 == 'True'):
                     QMessageBox.information(None, 'POOII', 'Cadastro realizado com sucesso!\n Numero da conta:{}'.format(self.cout))
                     self.tela_Cadastra_Conta.lineEdit.setText('')
 

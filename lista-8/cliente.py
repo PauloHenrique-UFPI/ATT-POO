@@ -15,7 +15,7 @@ while True:
     aux = client_socket.recv(1024).decode()
     print(aux)
 
-    if(aux == 'Sair' or aux == 'sair'):
+    if mensagem == 'Sair' or mensagem == 'sair':
         break
 
 client_socket.close()
