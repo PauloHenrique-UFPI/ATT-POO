@@ -145,10 +145,11 @@ class Main(QMainWindow, Ui_Main):
 
     def retorna_conta(self):
         numero_atual = self.tela_Operacoes.input_conta.text()
-        retorno = self.cadConta.busca(numero_atual)
-        if ( retorno == None):
-            QMessageBox.information(None, 'POOII', 'Conta não encontrada')
-        return retorno
+        
+        if ( numero_atual == ''):
+            QMessageBox.information(None, 'POOII', 'Todos os campos devem ser preenchidos')
+            return None
+        return numero_atual
 
     #def mostra_extrato(self):
        # self.conta_atual = self.retorna_conta()
@@ -172,20 +173,37 @@ class Main(QMainWindow, Ui_Main):
     def saca(self):
         valor = self.tela_Sacar.input_sacar.text()
         if (valor != ''):
-            Cliente_connect.passa_mensagem('sacar')
-            Cliente_connect.passa_mensagem(self.conta_atual)
-            Cliente_connect.passa_mensagem(valor)
-            QMessageBox.information(None, 'POOII', 'Saque efetuado com sucesso!')
+            Cliente_connect.passa_mensagem(self.cliente,'sacar')
+            flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
+            if flag == 'True':
+                
+                flag = Cliente_connect.passa_mensagem(self.cliente, str(valor))
+                if flag =='True':
+                    QMessageBox.information(None, 'POOII', 'Saque efetuado com sucesso!')
+                else:
+                    QMessageBox.information(None, 'POOII', 'Impossivel sacar a quantia!!')
+
+            else:
+                QMessageBox.information(None, 'POOII', 'Essa conta não existe! ')
         else:
-            QMessageBox.information(None, 'POOII', 'N foi possivel efetuar o saque!')
+            QMessageBox.information(None, 'POOII', 'Todos os campos devem ser preenchidos! ')
     
     def deposita(self):
         valor = self.tela_Depositar.input_deposito.text()
         if (valor != ''):
-            Cliente_connect.passa_mensagem('depositar')
-            Cliente_connect.passa_mensagem(self.conta_atual)
-            Cliente_connect.passa_mensagem(valor)
-            QMessageBox.information(None, 'POOII', 'Valor depositado!')
+            Cliente_connect.passa_mensagem(self.cliente,'depositar')
+            flag = Cliente_connect.passa_mensagem(self.cliente,self.conta_atual)
+            if flag == 'True':
+                flag = Cliente_connect.passa_mensagem(self.cliente, valor)
+                
+                if flag == 'True':
+                    QMessageBox.information(None, 'POOII', 'Valor depositado!')
+                else:
+                    QMessageBox.information(None, 'POOII', 'Valor exedeu o limite!')
+            else:
+                QMessageBox.information(None, 'POOII', 'Conta não encontrada')
+                   
+                        
         else:
             QMessageBox.information(None, 'POOII', 'Digite um valor para deposito!')
     

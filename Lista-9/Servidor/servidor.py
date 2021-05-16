@@ -1,8 +1,8 @@
-import socket
 from conta import Cliente
 from conta import Conta
 from cadastro import Cadastro
 from cadastroConta import Cadastro_Conta
+import socket
 
 host = 'localhost'
 port = 8100
@@ -62,25 +62,39 @@ while True:
         
         continue     
     
-    '''
-    #operacao
-    while cont < 3:
-        if cont == 0:
-            recebeNumeroConta = con.recv(1024).decode()
-        elif cont == 1:
-            recebeOperacao = con.recv(1024).decode()
-        elif cont == 2:
+    if recebeOp == 'sacar':
+        recebeCAtual = con.recv(1024).decode()
+        c = cadConta.busca(recebeCAtual)
+        if c != None:
+            con.send('True'.encode())
             recebeValor = con.recv(1024).decode()
-            if recebeValor != -1:
-                int(recebeValor)
-        cont+=1
-        
-    print('Numero da conta: ',recebeNumeroConta,'\nOperacao: ', recebeOperacao, '\nValor: ', recebeValor)
-    cont = 0
+            if c.sacar(int(recebeValor)):
+                con.send('True'.encode())
+            else:
+                con.send('False'.encode())
+            continue
 
-    if recebeNumeroConta == '-1':
-        break
-    '''        
+        else:
+            con.send('False'.encode())
+            continue
+
+    if recebeOp == 'depositar':
+        recebeCAtual = con.recv(1024).decode()
+        c = cadConta.busca(recebeCAtual)
+        if c != None:
+            con.send('True'.encode())
+            recebeValor = con.recv(1024).decode()
+            if c.depositar(int(recebeValor)):
+                con.send('True'.encode())
+            else:
+                con.send('False'.encode())
+            continue
+
+        else:
+            con.send('False'.encode())
+            continue
+
+
    
 
 serv_socket.close()
