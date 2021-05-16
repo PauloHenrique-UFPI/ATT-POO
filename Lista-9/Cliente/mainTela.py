@@ -191,7 +191,7 @@ class Main(QMainWindow, Ui_Main):
     def deposita(self):
         valor = self.tela_Depositar.input_deposito.text()
         if (valor != ''):
-            Cliente_connect.passa_mensagem(self.cliente,'depositar')
+            Cliente_connect.passa_mensagem(self.cliente, 'depositar')
             flag = Cliente_connect.passa_mensagem(self.cliente,self.conta_atual)
             if flag == 'True':
                 flag = Cliente_connect.passa_mensagem(self.cliente, valor)
