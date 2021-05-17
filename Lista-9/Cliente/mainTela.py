@@ -166,12 +166,19 @@ class Main(QMainWindow, Ui_Main):
 
     def mostrar_historico(self):
         self.conta_atual = self.retorna_conta()
-        Cliente_connect.passa_mensagem(self.cliente,'extrato')
+        Cliente_connect.passa_mensagem(self.cliente,'historico')
         flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
         if ( flag != None ):
             self.tela_Hitorico.input_historico.clear()
-            return_historico = Cliente_connect.passa_mensagem(self.cliente, 'historico')
-            for operacao in return_historico:
+            arrayHistorico = []
+            condParada = 'True'
+            while condParada != 'False':
+                condParada = Cliente_connect.passa_mensagem(self.cliente, 'historico')
+                if condParada != 'False':
+                    arrayHistorico.append(condParada)
+                else:
+                    break
+            for operacao in arrayHistorico:
                 self.tela_Hitorico.input_historico.addItem(operacao)
 
             self.controle_de_tela.setCurrentIndex(self.index_Historico)

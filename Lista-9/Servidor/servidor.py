@@ -114,9 +114,13 @@ while True:
         c = cadConta.busca(recebeCAtual)
         if c != None:
             con.send('True'.encode())
-            con.recv(1024).decode()
             historico = Conta.historico(c)
-            con.send(historico)
+            for lp in historico:
+                con.recv(1024).decode()
+                con.send(lp.encode())
+            con.recv(1024).decode()
+            con.send('False'.encode())
+            continue
         else:
             con.send('False'.encode())
         continue
