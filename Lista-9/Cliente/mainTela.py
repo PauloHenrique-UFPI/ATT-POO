@@ -102,10 +102,10 @@ class Main(QMainWindow, Ui_Main):
         self.tela_Operacoes.botao_sacar.clicked.connect(self.troca_sacar)
         self.tela_Sacar.botao_sacar.clicked.connect(self.saca)
         self.tela_Sacar.botao_voltar.clicked.connect(self.volta_opcoes)
-        #self.tela_Operacoes.botao_historico.clicked.connect(self.mostrar_historico)
+        self.tela_Operacoes.botao_historico.clicked.connect(self.mostrar_historico)
         self.tela_Operacoes.pushButton_5.clicked.connect(self.troca_inicial)
         self.tela_Hitorico.pushButton.clicked.connect(self.volta_opcoes)
-        #self.tela_Operacoes.pushButton.clicked.connect(self.mostra_extrato)
+        self.tela_Operacoes.pushButton.clicked.connect(self.mostra_extrato)
         self.tela_Extrato.botao_voltar.clicked.connect(self.volta_opcoes)
         self.tela_Operacoes.botao_transferir.clicked.connect(self.troca_transfere)
         self.tela_Tranferir.botao_transferir.clicked.connect(self.tranfere_valor)
@@ -151,24 +151,30 @@ class Main(QMainWindow, Ui_Main):
             return None
         return numero_atual
 
-    #def mostra_extrato(self):
-       # self.conta_atual = self.retorna_conta()
-        #if (self.conta_atual != None):
-            #data = Conta.data(self.conta_atual)
-            #saldo = Conta.saldo_conta(self.conta_atual)
-            #self.tela_Extrato.lineEdit_2.setText(data)
-            #self.tela_Extrato.lineEdit.setText(str(saldo))
-            #self.controle_de_tela.setCurrentIndex(self.index_Extrato)
+    def mostra_extrato(self):
+        self.conta_atual = self.retorna_conta()
+        Cliente_connect.passa_mensagem(self.cliente,'extrato')
+        flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
+        if (flag != None):
+            data = Cliente_connect.passa_mensagem(self.cliente, 'data')
+            saldo = Cliente_connect.passa_mensagem(self.cliente, 'saldo')
+            self.tela_Extrato.lineEdit_2.setText(data)
+            self.tela_Extrato.lineEdit.setText(str(saldo))
+            self.controle_de_tela.setCurrentIndex(self.index_Extrato)
+        else:
+             QMessageBox.information(None, 'POOII', 'conta!!')
 
-    #def mostrar_historico(self):
-       # self.conta_atual = self.retorna_conta()
-        #if ( self.conta_atual != None ):
-           # self.tela_Hitorico.input_historico.clear()
-           # return_historico = Conta.historico(self.conta_atual)
-           # for operacao in return_historico:
-           #     self.tela_Hitorico.input_historico.addItem(operacao)
+    def mostrar_historico(self):
+        self.conta_atual = self.retorna_conta()
+        Cliente_connect.passa_mensagem(self.cliente,'extrato')
+        flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
+        if ( flag != None ):
+            self.tela_Hitorico.input_historico.clear()
+            return_historico = Cliente_connect.passa_mensagem(self.cliente, 'historico')
+            for operacao in return_historico:
+                self.tela_Hitorico.input_historico.addItem(operacao)
 
-            #self.controle_de_tela.setCurrentIndex(self.index_Historico)
+            self.controle_de_tela.setCurrentIndex(self.index_Historico)
     
     def saca(self):
         valor = self.tela_Sacar.input_sacar.text()
@@ -211,15 +217,26 @@ class Main(QMainWindow, Ui_Main):
         num_conta = self.tela_Tranferir.input_conta.text()
         valor = self.tela_Tranferir.input_valor.text()
         
-        Cliente_connect.passa_mensagem('tranferir')
-        Cliente_connect.passa_mensagem(self.conta_atual)
-        Cliente_connect.passa_mensagem(valor)
-        retorno = Cliente_connect.passa_mensagem(num_conta)
+        Cliente_connect.passa_mensagem(self.cliente,'tranferir')
+        retorno = Cliente_connect.passa_mensagem(self.cliente,self.conta_atual)
+        print('retorno conta atual: ',retorno)
 
-        if (retorno != None):
-            QMessageBox.information(None, 'POOII', 'Transferencia efetuada com sucesso!')
+        if retorno == 'True':
+            retorno =  Cliente_connect.passa_mensagem(self.cliente,num_conta)
+            print('retorno segunda: ',retorno)
+            
+            if retorno == 'True':
+                retorno = Cliente_connect.passa_mensagem(self.cliente,str(valor))
+                
+                if retorno == 'True':
+                    QMessageBox.information(None, 'POOII', 'Transferencia efetuada com sucesso!')
+                else:
+                    QMessageBox.information(None, 'POOII', 'Nao foi possivel transferir')
+            else:
+                QMessageBox.information(None, 'POOII', 'Conta2 não encontrada!')
         else:
-            QMessageBox.information(None, 'POOII', 'Conta não encontrada! {}'.format(retorno))
+            QMessageBox.information(None, 'POOII', 'Conta não encontrada!')
+
 
     def cadastra_pessoa(self):
         nome = self.tela_Cadastra.input_nome.text()

@@ -84,7 +84,7 @@ while True:
         if c != None:
             con.send('True'.encode())
             recebeValor = con.recv(1024).decode()
-            if c.depositar(int(recebeValor)):
+            if c.depositar(float(recebeValor)):
                 con.send('True'.encode())
             else:
                 con.send('False'.encode())
@@ -94,7 +94,65 @@ while True:
             con.send('False'.encode())
             continue
 
+    if recebeOp == 'extrato':
+        recebeCAtual = con.recv(1024).decode()
+        c = cadConta.busca(recebeCAtual)
+        if c != None:
+            con.send('True'.encode())
+            con.recv(1024).decode()
+            data = Conta.data(c)
+            saldo = Conta.saldo_conta(c)
+            con.send(str(data).encode())
+            con.recv(1024).decode()
+            con.send(str(saldo).encode())
+        else:
+            con.send('False'.encode())
+        continue
+
+    if recebeOp == 'historico':
+        recebeCAtual = con.recv(1024).decode()
+        c = cadConta.busca(recebeCAtual)
+        if c != None:
+            con.send('True'.encode())
+            con.recv(1024).decode()
+            historico = Conta.historico(c)
+            con.send(historico)
+        else:
+            con.send('False'.encode())
+        continue
+    
+    if recebeOp == 'tranferir':
+        recebeConta = con.recv(1024).decode()
+    c = cadConta.busca(recebeConta)
+    if c != None:
+        con.send('True'.encode())
+        recebeConta1 = con.recv(1024).decode()
+        c1 = cadConta.busca(recebeConta1)
+        if c1 != None:
+            con.send('True'.encode())
+            recebeValor = con.recv(1024).decode()
+            if c.transfere(c1,float(recebeValor)):
+                con.send('True'.encode())
+            else:
+                con.send('False'.encode())
+            continue
+        else:
+            con.send('False'.encode())
+            continue
+    else:
+        con.send('False'.encode())
+    continue
+serv_socket.close()
+
+
+        
+
+
+
+
+
+
+                    
 
    
 
-serv_socket.close()
