@@ -5,18 +5,23 @@
             Classe criada para criar lista de 'Conta()'
 '''
 class Cadastro:
-    '''
-        Modulo que cria o  'construtor' da Classe'
-            :param  self._lista_contas: Conta()
-                valor do tipo Conta
-    '''
    
     __slots__ = ['_lista_pessoas']
 
     def __init__(self):
+        '''
+            Modulo que cria o  'construtor' da Classe'
+                :param  self._lista_contas: Conta()
+                    valor do tipo Conta
+        '''
         self._lista_pessoas = []
     
     def cadastra(self, cliente):
+        '''
+            Modulo que cadastra uma pessoa
+            :param self: Cadastro()
+                valor do tipo class Cadastro
+        '''
         existe = self.busca(cliente.cpf)
         if(existe == None):
             self._lista_pessoas.append(cliente)

@@ -21,6 +21,12 @@ from cliente import Cliente_connect
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
+        '''
+            Modulo que troca para a tela inicial
+            :param self: Main(), Main feito altomaticamente
+                valor do tipo Main
+               
+        '''
         Main.setObjectName('Main')
         Main.resize(640,480)
 
@@ -86,6 +92,12 @@ class Ui_Main(QtWidgets.QWidget):
 
 class Main(QMainWindow, Ui_Main):
     def __init__(self, parent = None):
+        '''
+            Modulo que troca para a tela inicial
+            :param self: Main(),parent
+                valor do tipo class Main
+                valor do tipo none
+        '''
         super(Main, self).__init__(parent)
         self.cliente = Cliente_connect()
         Cliente_connect.connect(self.cliente)
@@ -114,36 +126,81 @@ class Main(QMainWindow, Ui_Main):
         self.conta_atual = None
     
     def troca_inicial(self):
+        '''
+            Modulo que troca para a tela inicial
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.controle_de_tela.setCurrentIndex(self.index_Inicial)
 
     def troca_transfere(self):
+        '''
+            Modulo que troca de tela de tranferencia
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.conta_atual = self.retorna_conta()
         if ( self.conta_atual != None):
             self.controle_de_tela.setCurrentIndex(self.index_Tranferir)
 
     def volta_opcoes(self):
+        '''
+            Modulo que troca de tela de opcoes: saca, tranfere...
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.controle_de_tela.setCurrentIndex(self.index_Operacoes)
 
     def troca_cadastra_pessoa(self):
+        '''
+            Modulo que troca para a tela de cadastrar pessoas
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.controle_de_tela.setCurrentIndex(self.index_Cadastra)
 
     def troca_cadastra_conta(self):
+        '''
+            Modulo que troca para a tela de cadastrar pessoas
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.controle_de_tela.setCurrentIndex(self.index_Cadastra_Conta)
     
     def troca_operacoes(self):
+        '''
+            Modulo que troca de tela de opcoes: saca, tranfere...
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.controle_de_tela.setCurrentIndex(self.index_Operacoes)
 
     def troca_sacar(self):
+        '''
+            Modulo que troca para a tela de sacar
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.conta_atual = self.retorna_conta()
         if ( self.conta_atual != None):
             self.controle_de_tela.setCurrentIndex(self.index_Sacar)
 
     def troca_deposita(self):
+        '''
+            Modulo que troca para a tela de depositar
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.conta_atual = self.retorna_conta()
         if ( self.conta_atual != None):
             self.controle_de_tela.setCurrentIndex(self.index_Depositar)
 
     def retorna_conta(self):
+        '''
+            Retorna a conta atual, da tela de opcões
+            :param self: Main()
+                valor do tipo class Main
+        '''
         numero_atual = self.tela_Operacoes.input_conta.text()
         
         if ( numero_atual == ''):
@@ -152,6 +209,11 @@ class Main(QMainWindow, Ui_Main):
         return numero_atual
 
     def mostra_extrato(self):
+        '''
+            Modulo que mostra o extrato quandoa tela extrato é chamada
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.conta_atual = self.retorna_conta()
         Cliente_connect.passa_mensagem(self.cliente,'extrato')
         flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
@@ -165,6 +227,11 @@ class Main(QMainWindow, Ui_Main):
              QMessageBox.information(None, 'POOII', 'conta!!')
 
     def mostrar_historico(self):
+        '''
+            Modulo que mostra o histórico quandoa tela extrato é chamada
+            :param self: Main()
+                valor do tipo class Main
+        '''
         self.conta_atual = self.retorna_conta()
         Cliente_connect.passa_mensagem(self.cliente,'historico')
         flag = Cliente_connect.passa_mensagem(self.cliente, str(self.conta_atual))
@@ -184,6 +251,11 @@ class Main(QMainWindow, Ui_Main):
             self.controle_de_tela.setCurrentIndex(self.index_Historico)
     
     def saca(self):
+        '''
+            Modulo que gerencia os dados para saque e envia para o servidor
+            :param self: Main()
+                valor do tipo class Main
+        '''
         valor = self.tela_Sacar.input_sacar.text()
         if (valor != ''):
             Cliente_connect.passa_mensagem(self.cliente,'sacar')
@@ -202,6 +274,11 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POOII', 'Todos os campos devem ser preenchidos! ')
     
     def deposita(self):
+        '''
+            Modulo que gerencia os dados para depósito e envia para o servidor
+            :param self: Main()
+                valor do tipo class Main
+        '''
         valor = self.tela_Depositar.input_deposito.text()
         if (valor != ''):
             Cliente_connect.passa_mensagem(self.cliente, 'depositar')
@@ -221,6 +298,11 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, 'POOII', 'Digite um valor para deposito!')
     
     def tranfere_valor(self):
+        '''
+            Modulo que gerencia os dados para tranferência e envia para o servidor
+            :param self: Main()
+                valor do tipo class Main
+        '''
         num_conta = self.tela_Tranferir.input_conta.text()
         valor = self.tela_Tranferir.input_valor.text()
         
@@ -246,6 +328,11 @@ class Main(QMainWindow, Ui_Main):
 
 
     def cadastra_pessoa(self):
+        '''
+            Modulo que gerencia os dados para cadastrar uma pessoa e envia para o servidor
+            :param self: Main()
+                valor do tipo class Main
+        '''
         nome = self.tela_Cadastra.input_nome.text()
         sobrenome = self.tela_Cadastra.input_sobrenome.text()
         cpf = self.tela_Cadastra.input_cpf.text()
@@ -265,6 +352,11 @@ class Main(QMainWindow, Ui_Main):
     
 
     def cadastra_Conta(self):
+        '''
+            Modulo que gerencia os dados para cadastrar uma pessoa e envia para o servidor
+            :param self: Main()
+                valor do tipo class Main
+        '''
         
         cpf = self.tela_Cadastra_Conta.lineEdit.text()
         str(cpf)
