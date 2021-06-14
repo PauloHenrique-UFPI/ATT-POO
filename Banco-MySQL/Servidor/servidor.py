@@ -85,7 +85,7 @@ while True:
         c = Conta(p,recebeCout,0,10000)
         if cadConta.cadastra(c):
             aux_id += 1
-            cursor.execute("INSERT INTO contas_banco(id, nome, sobrenome, cpf, numero, saldo, limite) VALUES({},{},{},{},{},{},{})".format(aux_id,p.nome,p.sobrenome,p.cpf,recebeCout,'0','10000'))
+            cursor.execute("INSERT INTO contas_banco(id, nome, sobrenome, cpf, numero, saldo, limite) VALUES({},%s,%s,{},{},{},{})".format(aux_id,p.cpf,recebeCout,'0','10000'),(p.nome,p.sobrenome))
             con.send('True'.encode())
             aux = int(recebeCout)
             conexao.commit()
