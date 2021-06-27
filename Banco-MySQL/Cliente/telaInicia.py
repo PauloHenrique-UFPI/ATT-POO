@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\telaInicial.ui'
+# Form implementation generated from reading ui file 'telaInicia.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,24 +14,28 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Tela_Inicial(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(238, 270)
+        MainWindow.resize(263, 375)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.botao_cadpessoa = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_cadpessoa.setGeometry(QtCore.QRect(60, 130, 141, 23))
+        self.botao_cadpessoa.setObjectName("botao_cadpessoa")
+        self.botao_cadconta = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_cadconta.setGeometry(QtCore.QRect(60, 180, 141, 23))
+        self.botao_cadconta.setObjectName("botao_cadconta")
+        self.botao_singin = QtWidgets.QPushButton(self.centralwidget)
+        self.botao_singin.setGeometry(QtCore.QRect(60, 230, 141, 23))
+        self.botao_singin.setObjectName("botao_singin")
+        self.sair = QtWidgets.QPushButton(self.centralwidget)
+        self.sair.setGeometry(QtCore.QRect(90, 280, 75, 23))
+        self.sair.setObjectName("sair")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(40, 30, 161, 51))
+        self.label.setGeometry(QtCore.QRect(60, 60, 161, 31))
         font = QtGui.QFont()
-        font.setPointSize(20)
+        font.setFamily("PMingLiU-ExtB")
+        font.setPointSize(22)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.botao_cadpessoa = QtWidgets.QPushButton(self.centralwidget)
-        self.botao_cadpessoa.setGeometry(QtCore.QRect(70, 110, 101, 23))
-        self.botao_cadpessoa.setObjectName("botao_cadpessoa")
-        self.botao_singin = QtWidgets.QPushButton(self.centralwidget)
-        self.botao_singin.setGeometry(QtCore.QRect(70, 170, 101, 23))
-        self.botao_singin.setObjectName("botao_singin")
-        self.botao_cadconta = QtWidgets.QPushButton(self.centralwidget)
-        self.botao_cadconta.setGeometry(QtCore.QRect(70, 140, 101, 23))
-        self.botao_cadconta.setObjectName("botao_cadconta")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -43,10 +47,11 @@ class Tela_Inicial(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Menu - Conta"))
-        self.botao_cadpessoa.setText(_translate("MainWindow", "Cadastrar Pessoa"))
-        self.botao_singin.setText(_translate("MainWindow", "Sing-in"))
+        self.botao_cadpessoa.setText(_translate("MainWindow", "Cadastrar Cliente"))
         self.botao_cadconta.setText(_translate("MainWindow", "Cadastrar Conta"))
+        self.botao_singin.setText(_translate("MainWindow", "Sing-in"))
+        self.sair.setText(_translate("MainWindow", "Sair"))
+        self.label.setText(_translate("MainWindow", "Menu - Conta"))
 
 
 if __name__ == "__main__":

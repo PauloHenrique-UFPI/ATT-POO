@@ -375,7 +375,7 @@ class Main(QMainWindow, Ui_Main):
                     self.tela_Cadastra_Conta.lineEdit.setText('')
 
                 else:
-                    QMessageBox.information(None, 'POOII', 'conta ja cadastrado!')
+                    QMessageBox.information(None, 'POOII', 'nao foi possivel cadastrar!')
             else:
                 QMessageBox.information(None, 'POOII', 'cpf não encontrado!')
         else:
